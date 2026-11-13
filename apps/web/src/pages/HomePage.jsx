@@ -375,223 +375,167 @@ function HomePage() {
         <main ref={pageRef} className="relative z-10 pt-24">
           <FloatingShapes />
 
-          <section className="relative isolate overflow-hidden bg-background/5 px-4 pb-20 pt-10 text-foreground sm:px-6 sm:pb-28 sm:pt-16 lg:px-8 lg:pb-36 lg:pt-24">
+          
+<section className="relative isolate overflow-hidden bg-background/5 px-4 pb-20 pt-10 text-foreground sm:px-6 sm:pb-28 sm:pt-16 lg:px-8 lg:pb-36 lg:pt-24">
 
-            {/* Animated Background Effects */}
-            <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-              <motion.div
-                animate={{
-                  x: [0, 35, 0],
-                  y: [0, -25, 0],
-                  scale: [1, 1.15, 1],
-                }}
-                transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute -left-40 top-10 h-72 w-72 rounded-full bg-blue-500/10 blur-[100px] sm:h-96 sm:w-96"
-              />
+  {/* Static Background Glow */}
+  <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+    <div className="absolute -left-40 top-10 h-72 w-72 rounded-full bg-blue-500/10 blur-[100px] sm:h-96 sm:w-96" />
 
-              <motion.div
-                animate={{
-                  x: [0, -30, 0],
-                  y: [0, 30, 0],
-                  scale: [1, 1.2, 1],
-                }}
-                transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute -right-40 bottom-0 h-80 w-80 rounded-full bg-violet-500/10 blur-[110px] sm:h-[450px] sm:w-[450px]"
-              />
-            </div>
+    <div className="absolute -right-40 bottom-0 h-80 w-80 rounded-full bg-violet-500/10 blur-[110px] sm:h-[450px] sm:w-[450px]" />
+  </div>
 
-            <div className="mx-auto flex max-w-[1400px] flex-col gap-12 sm:gap-16">
+  <div className="mx-auto flex max-w-[1400px] flex-col gap-12 sm:gap-16">
 
-              <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14 xl:gap-20">
+    <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14 xl:gap-20">
 
-                {/* LEFT CONTENT */}
-                <motion.div
-                  initial="hidden"
-                  animate="visible"
-                  variants={{
-                    hidden: {},
-                    visible: {
-                      transition: {
-                        staggerChildren: 0.14,
-                        delayChildren: 0.1,
-                      },
-                    },
-                  }}
-                  className="relative z-10 mx-auto w-full max-w-3xl text-center lg:mx-0 lg:text-left"
-                >
+      {/* LEFT CONTENT */}
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={{
+          hidden: { opacity: 0 },
+          visible: {
+            opacity: 1,
+            transition: {
+              staggerChildren: 0.15,
+              delayChildren: 0.15,
+            },
+          },
+        }}
+        className="relative z-10 mx-auto w-full max-w-3xl text-center lg:mx-0 lg:text-left"
+      >
 
-                  {/* Background Glow */}
-                  <div className="pointer-events-none absolute -inset-12 -z-10 rounded-[3rem] bg-gradient-to-r from-black/70 via-black/30 to-transparent blur-3xl" />
+        {/* Background Glow */}
+        <div className="pointer-events-none absolute -inset-12 -z-10 rounded-[3rem] bg-gradient-to-r from-black/70 via-black/30 to-transparent blur-3xl" />
 
-                  <motion.div
-                    animate={{ opacity: [0.4, 0.8, 0.4], scale: [1, 1.15, 1] }}
-                    transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-                    className="pointer-events-none absolute -left-10 top-10 h-28 w-28 rounded-full bg-blue-400/15 blur-3xl"
-                  />
+        {/* Badge */}
+        <motion.div
+          variants={{
+            hidden: { opacity: 0, y: 20 },
+            visible: { opacity: 1, y: 0 },
+          }}
+          transition={{ duration: 0.65, ease: "easeOut" }}
+          className="mb-5 inline-flex max-w-full items-center gap-2 rounded-full border border-white/20 bg-black/40 px-3 py-2 text-xs text-gray-200 shadow-lg backdrop-blur-md sm:mb-6 sm:px-4 sm:text-sm"
+        >
+          <Sparkles className="h-4 w-4 shrink-0 text-blue-300" />
+          <span>Premium growth systems for modern brands</span>
+        </motion.div>
 
-                  <motion.div
-                    variants={{
-                      hidden: { opacity: 0, y: 22, scale: 0.92 },
-                      visible: { opacity: 1, y: 0, scale: 1 },
-                    }}
-                    transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                    className="mb-5 inline-flex max-w-full items-center gap-2 rounded-full border border-white/20 bg-black/40 px-3 py-2 text-xs text-gray-200 shadow-lg backdrop-blur-md sm:mb-6 sm:px-4 sm:text-sm"
-                  >
-                    <Sparkles className="h-4 w-4 shrink-0 text-blue-300" />
-                    <span>Premium growth systems for modern brands</span>
-                  </motion.div>
+        {/* Heading */}
+        <motion.h1
+          variants={{
+            hidden: { opacity: 0, y: 25 },
+            visible: { opacity: 1, y: 0 },
+          }}
+          transition={{
+            duration: 0.8,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          className="max-w-4xl font-heading text-4xl font-semibold leading-[1.12] tracking-[-0.035em] text-white sm:text-6xl lg:text-5xl xl:text-6xl"
+        >
+          Make your brand feel like a{" "}
+          <span className="text-blue-500 drop-shadow-md">
+            category leader.
+          </span>
+        </motion.h1>
 
-                  {/* Animated Heading */}
-                  <h1 className="max-w-4xl font-heading text-5xl font-semibold leading-[1.08] tracking-[-0.02em] text-white sm:text-6xl lg:text-5xl">
-                    <span className="block overflow-hidden pb-2">
-                      <motion.span
-                        initial={{ y: '110%' }}
-                        animate={{ y: '0%' }}
-                        transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
-                        className="block"
-                      >
-                        Make your brand feel like a
-                      </motion.span>
-                    </span>
+        {/* Description */}
+        <motion.p
+          variants={{
+            hidden: { opacity: 0, y: 20 },
+            visible: { opacity: 1, y: 0 },
+          }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-gray-300 sm:mt-6 sm:text-base sm:leading-8 md:text-lg lg:mx-0"
+        >
+          We blend strategy, creative, and product execution to build high-conviction digital experiences that convert, scale, and endure.
+        </motion.p>
 
-                    <span className="block overflow-hidden pb-2">
-                      <motion.span
-                        initial={{ y: '110%' }}
-                        animate={{ y: '0%' }}
-                        transition={{
-                          duration: 0.85,
-                          ease: [0.16, 1, 0.3, 1],
-                          delay: 0.1,
-                        }}
-                        className="block text-blue-500 drop-shadow-md"
-                      >
-                        category leader.
-                      </motion.span>
-                    </span>
-                  </h1>
+        {/* CTA Button */}
+        <motion.div
+          variants={{
+            hidden: { opacity: 0, y: 18 },
+            visible: { opacity: 1, y: 0 },
+          }}
+          transition={{ duration: 0.7 }}
+          className="mt-7 flex flex-col justify-center gap-3 sm:mt-8 sm:flex-row lg:justify-start"
+        >
+          <Button
+            asChild
+            size="lg"
+            className="btn-shine group w-full rounded-full bg-gradient-to-r from-blue-600 via-fuchsia-500 to-violet-500 px-7 py-6 text-sm font-semibold text-white shadow-[0_12px_35px_rgba(59,130,246,0.25)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_45px_rgba(59,130,246,0.4)] sm:w-auto sm:px-8 sm:text-base"
+          >
+            <a
+              href="#contact"
+              onClick={(event) => handleNavClick(event, '#contact')}
+            >
+              Book a discovery session
+            </a>
+          </Button>
+        </motion.div>
 
-                  {/* Description */}
-                  <motion.p
-                    variants={{
-                      hidden: { opacity: 0, y: 24 },
-                      visible: { opacity: 1, y: 0 },
-                    }}
-                    transition={{ duration: 0.75 }}
-                    className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-gray-300 sm:mt-6 sm:text-base sm:leading-8 md:text-lg lg:mx-0"
-                  >
-                    We blend strategy, creative, and product execution to build high-conviction digital experiences that convert, scale, and endure.
-                  </motion.p>
+        {/* Client Badges */}
+        <motion.div
+          variants={{
+            hidden: { opacity: 0, y: 15 },
+            visible: { opacity: 1, y: 0 },
+          }}
+          transition={{ duration: 0.7 }}
+          className="mt-9 flex flex-wrap justify-center gap-2.5 text-xs text-muted-foreground sm:mt-10 sm:gap-3 sm:text-sm lg:justify-start"
+        >
+          {heroClients.map((brand) => (
+            <motion.span
+              key={brand}
+              whileHover={{ y: -3 }}
+              transition={{ duration: 0.2 }}
+              className="cursor-default rounded-full border border-white/10 bg-black/40 px-3 py-2 text-gray-300 shadow-md backdrop-blur-sm transition-colors duration-300 hover:border-blue-400/50 hover:text-white sm:px-4"
+            >
+              {brand}
+            </motion.span>
+          ))}
+        </motion.div>
+      </motion.div>
 
-                  {/* CTA Button */}
-                  <motion.div
-                    variants={{
-                      hidden: { opacity: 0, y: 25, scale: 0.96 },
-                      visible: { opacity: 1, y: 0, scale: 1 },
-                    }}
-                    transition={{ duration: 0.7 }}
-                    className="mt-7 flex flex-col justify-center gap-3 sm:mt-8 sm:flex-row lg:justify-start"
-                  >
-                    <Button
-                      asChild
-                      size="lg"
-                      className="btn-shine group w-full rounded-full bg-gradient-to-r from-blue-600 via-fuchsia-500 to-violet-500 px-7 py-6 text-sm font-semibold text-white shadow-[0_12px_35px_rgba(59,130,246,0.25)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_45px_rgba(59,130,246,0.4)] sm:w-auto sm:px-8 sm:text-base"
-                    >
-                      <a
-                        href="#contact"
-                        onClick={(event) => handleNavClick(event, '#contact')}
-                      >
-                        Book a discovery session
-                      </a>
-                    </Button>
-                  </motion.div>
+      {/* RIGHT IMAGE */}
+      <motion.div
+        initial={{ opacity: 0, x: 35 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{
+          duration: 0.85,
+          delay: 0.35,
+          ease: [0.22, 1, 0.36, 1],
+        }}
+        className="relative mx-auto w-full max-w-2xl lg:max-w-none"
+      >
 
-                  {/* Client Badges */}
-                  <motion.div
-                    variants={{
-                      hidden: { opacity: 0, y: 20 },
-                      visible: { opacity: 1, y: 0 },
-                    }}
-                    transition={{ duration: 0.7 }}
-                    className="mt-9 flex flex-wrap justify-center gap-2.5 text-xs text-muted-foreground sm:mt-10 sm:gap-3 sm:text-sm lg:justify-start"
-                  >
-                    {heroClients.map((brand, index) => (
-                      <motion.span
-                        key={brand}
-                        initial={{ opacity: 0, y: 18, scale: 0.9 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        transition={{
-                          delay: 0.85 + index * 0.09,
-                          duration: 0.5,
-                          ease: 'easeOut',
-                        }}
-                        whileHover={{
-                          y: -4,
-                          scale: 1.04,
-                          borderColor: 'rgba(96,165,250,0.65)',
-                        }}
-                        className="cursor-default rounded-full border border-white/10 bg-black/40 px-3 py-2 text-gray-300 shadow-md backdrop-blur-sm transition-colors duration-300 hover:text-white sm:px-4"
-                      >
-                        {brand}
-                      </motion.span>
-                    ))}
-                  </motion.div>
-                </motion.div>
+        {/* Static Image Glow */}
+        <div className="pointer-events-none absolute -inset-5 rounded-[28px] bg-gradient-to-br from-blue-500/20 via-transparent to-violet-500/25 blur-2xl sm:-inset-8" />
 
-                {/* RIGHT IMAGE */}
-                <motion.div
-                  initial={{ opacity: 0, x: 55, scale: 0.94, filter: 'blur(12px)' }}
-                  animate={{ opacity: 1, x: 0, scale: 1, filter: 'blur(0px)' }}
-                  transition={{
-                    duration: 1,
-                    delay: 0.25,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
-                  className="relative mx-auto w-full max-w-2xl lg:max-w-none"
-                >
+        <div className="relative overflow-hidden rounded-2xl border border-white/15 bg-card shadow-[0_25px_70px_rgba(0,0,0,0.35)] sm:rounded-[22px]">
 
-                  {/* Image Glow */}
-                  <motion.div
-                    animate={{
-                      opacity: [0.35, 0.7, 0.35],
-                      scale: [0.95, 1.05, 0.95],
-                    }}
-                    transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-                    className="absolute -inset-5 rounded-[28px] bg-gradient-to-br from-blue-500/25 via-transparent to-violet-500/30 blur-2xl sm:-inset-8"
-                  />
+          <img
+            src="/images/usa-office-exterior.jpg"
+            alt="WebCore360 Team"
+            loading="eager"
+            fetchPriority="high"
+            decoding="async"
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            className="aspect-[4/3] w-full object-cover transition-transform duration-700 ease-out hover:scale-[1.03] sm:aspect-[5/4] lg:aspect-[4/3]"
+          />
 
-                  <div className="absolute right-5 top-5 h-20 w-20 rounded-full bg-blue-400/15 blur-3xl sm:right-8 sm:top-8 sm:h-28 sm:w-28" />
+          {/* Image Overlay */}
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/30 via-transparent to-white/5" />
 
-                  {/* Image Card */}
-                  <motion.div
-                    whileHover={{ y: -6 }}
-                    transition={{ duration: 0.35 }}
-                    className="group relative overflow-hidden rounded-2xl border border-white/15 bg-card shadow-[0_25px_70px_rgba(0,0,0,0.35)] sm:rounded-[22px]"
-                  >
-                    <img
-                      src="/images/usa-office-exterior.jpg"
-                      alt="WebCore360 Team"
-                      loading="eager"
-                      fetchPriority="high"
-                      decoding="async"
-                      sizes="(max-width: 1024px) 100vw, 50vw"
-                      className="aspect-[4/3] w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.045] sm:aspect-[5/4] lg:aspect-[4/3]"
-                    />
+          {/* Static Border */}
+          <div className="pointer-events-none absolute inset-0 rounded-2xl border border-blue-300/20 sm:rounded-[22px]" />
+        </div>
+      </motion.div>
 
-                    {/* Image Overlay */}
-                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/30 via-transparent to-white/5 opacity-70 transition-opacity duration-500 group-hover:opacity-100" />
+    </div>
+  </div>
+</section>
 
-                    {/* Animated Border Highlight */}
-                    <motion.div
-                      animate={{ opacity: [0.2, 0.65, 0.2] }}
-                      transition={{ duration: 4, repeat: Infinity }}
-                      className="pointer-events-none absolute inset-0 rounded-2xl border border-blue-300/30 sm:rounded-[22px]"
-                    />
-                  </motion.div>
-                </motion.div>
-
-              </div>
-            </div>
-          </section>
 
 
           <section className="relative overflow-hidden px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
@@ -779,33 +723,33 @@ function HomePage() {
               </div>
 
               {/* Animated Brand Marquee */}
-              <motion.div
-                initial={{ opacity: 0, y: 35 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false, amount: 0.2 }}
-                transition={{ duration: 0.8, delay: 0.25 }}
-                className="mt-10 overflow-hidden rounded-[1.75rem] border border-border bg-card p-4 shadow-md sm:mt-12 sm:p-5"
-              >
-                <motion.div
-                  animate={{ x: ["0%", "-50%"] }}
-                  transition={{
-                    duration: 22,
-                    ease: "linear",
-                    repeat: Infinity,
-                  }}
-                  className="flex w-max items-center gap-3 sm:gap-4"
-                >
-                  {[...trustedBy, ...trustedBy].map((brand, index) => (
-                    <motion.div
-                      key={`${brand}-${index}`}
-                      whileHover={{ scale: 1.06, y: -4 }}
-                      className="flex min-w-[10rem] items-center justify-center rounded-[18px] border border-border bg-secondary px-5 py-4 text-center text-sm font-bold text-foreground transition-colors duration-300 hover:border-blue-500/40 hover:bg-muted sm:min-w-[12rem] sm:rounded-[22px] sm:px-6"
-                    >
-                      {brand}
-                    </motion.div>
-                  ))}
-                </motion.div>
-              </motion.div>
+           
+
+<motion.div
+  initial={{ opacity: 0, y: 35 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: false, amount: 0.2 }}
+  transition={{ duration: 0.8, delay: 0.25 }}
+  className="mt-10 overflow-hidden rounded-[1.75rem] border border-border bg-card p-4 shadow-md sm:mt-12 sm:p-5"
+>
+  <div className="group flex overflow-hidden">
+    <div className="flex w-max animate-trusted-marquee group-hover:[animation-play-state:paused]">
+
+      {[...trustedBy, ...trustedBy].map((brand, index) => (
+        <div
+          key={`${brand}-${index}`}
+          className="flex min-w-[10rem] items-center justify-center px-1.5 sm:min-w-[12rem] sm:px-2"
+        >
+          <div className="flex w-full items-center justify-center rounded-[18px] border border-border bg-secondary px-5 py-4 text-center text-sm font-bold text-foreground transition-all duration-300 hover:-translate-y-1 hover:scale-[1.04] hover:border-blue-500/40 hover:bg-muted sm:rounded-[22px] sm:px-6">
+            {brand}
+          </div>
+        </div>
+      ))}
+
+    </div>
+  </div>
+</motion.div>
+
             </motion.div>
           </section>
 

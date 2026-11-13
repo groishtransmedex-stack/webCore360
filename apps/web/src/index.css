@@ -481,3 +481,18 @@ html.lenis body {
 .animate-pulse-glow {
   animation: pulse-glow 2s infinite;
 }
+
+@keyframes trusted-marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-trusted-marquee {
+  animation: trusted-marquee 25s linear infinite;
+  will-change: transform;
+}
