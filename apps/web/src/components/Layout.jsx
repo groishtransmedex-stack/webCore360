@@ -50,107 +50,100 @@ const hyperspeedOptions = {
 };
 
 function Layout({ children }) {
- const location = useLocation();
- const navigate = useNavigate();
- const [isLoading, setIsLoading] = useState(true);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
 
- useEffect(() => {
- const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
- if (motionPreference) {
- document.documentElement.dataset.motion = 'reduced';
- }
-
-  // Global click handler to redirect CTA buttons to /contact-us
-  const handleGlobalClick = (e) => {
-    // Only intercept <a> tags that look like CTA links (buttons wrapping anchors via asChild)
-    const anchor = e.target.closest('a');
-    if (anchor) {
-      const href = anchor.getAttribute('href');
-      // Skip if already going to contact-us, or if it's an external/utility link
-      if (
-        href === '/contact-us' ||
-        href?.startsWith('http') ||
-        href?.startsWith('mailto:') ||
-        href?.startsWith('tel:') ||
-        href?.includes('wa.me') ||
-        href?.includes('calendly') ||
-        href?.startsWith('#') ||
-        anchor.getAttribute('target') === '_blank'
-      ) {
-        return;
-      }
+  useEffect(() => {
+    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (motionPreference) {
+      document.documentElement.dataset.motion = 'reduced';
     }
 
-    // Don't intercept raw <button> elements — those are functional UI (toggles, accordions, menus, etc.)
-    // We only redirect anchor-based CTA buttons (Button asChild wrapping <Link> or <a>)
-  };
+    // Global click handler to redirect CTA buttons to /contact-us
+    const handleGlobalClick = (e) => {
+      // Only intercept <a> tags that look like CTA links (buttons wrapping anchors via asChild)
+      const anchor = e.target.closest('a');
+      if (anchor) {
+        const href = anchor.getAttribute('href');
+        // Skip if already going to contact-us, or if it's an external/utility link
+        if (
+          href === '/contact-us' ||
+          href?.startsWith('http') ||
+          href?.startsWith('mailto:') ||
+          href?.startsWith('tel:') ||
+          href?.includes('wa.me') ||
+          href?.includes('calendly') ||
+          href?.startsWith('#') ||
+          anchor.getAttribute('target') === '_blank'
+        ) {
+          return;
+        }
+      }
 
- document.addEventListener('click', handleGlobalClick, true);
+      // Don't intercept raw <button> elements — those are functional UI (toggles, accordions, menus, etc.)
+      // We only redirect anchor-based CTA buttons (Button asChild wrapping <Link> or <a>)
+    };
 
- // Initialize smooth scrolling with Lenis
- const lenis = new Lenis({
- duration: 1.2,
- easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
- orientation: 'vertical',
- gestureOrientation: 'vertical',
- smoothWheel: true,
- wheelMultiplier: 1,
- touchMultiplier: 2,
- });
+    document.addEventListener('click', handleGlobalClick, true);
 
- let rafId;
- function raf(time) {
- lenis.raf(time);
- rafId = requestAnimationFrame(raf);
- }
- rafId = requestAnimationFrame(raf);
+    // Initialize smooth scrolling with Lenis
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 1,
+      touchMultiplier: 2,
+    });
 
- // Update ScrollTrigger on scroll if GSAP is loaded
- lenis.on('scroll', () => {
- if (window.ScrollTrigger) {
- window.ScrollTrigger.update();
- }
- });
+    let rafId;
+    function raf(time) {
+      lenis.raf(time);
+      rafId = requestAnimationFrame(raf);
+    }
+    rafId = requestAnimationFrame(raf);
 
- const loadTimer = setTimeout(() => setIsLoading(false), 900);
- return () => {
- clearTimeout(loadTimer);
- cancelAnimationFrame(rafId);
- lenis.destroy();
- document.removeEventListener('click', handleGlobalClick, true);
- };
- }, [navigate]);
+    // Update ScrollTrigger on scroll if GSAP is loaded
+    lenis.on('scroll', () => {
+      if (window.ScrollTrigger) {
+        window.ScrollTrigger.update();
+      }
+    });
 
- return (
- <div className="min-h-screen overflow-x-hidden text-foreground">
- <div className="fixed inset-0 z-[0] overflow-hidden bg-background pointer-events-none">
- <Suspense fallback={null}>
-  <Hyperspeed effectOptions={hyperspeedOptions} />
- </Suspense>
- {/* Overlay to ensure text readability */}
- <div className="absolute inset-0 bg-gradient-to-b from-background/0 via-background/40 to-background/90 pointer-events-none" />
- </div>
+    const loadTimer = setTimeout(() => setIsLoading(false), 900);
+    return () => {
+      clearTimeout(loadTimer);
+      cancelAnimationFrame(rafId);
+      lenis.destroy();
+      document.removeEventListener('click', handleGlobalClick, true);
+    };
+  }, [navigate]);
 
- {/* CustomCursor removed */}
- <ScrollToTop />
- {isLoading && <PageLoader />}
+  return (
+    <div className="min-h-screen overflow-x-hidden text-foreground">
+      <div className="fixed inset-0 z-[0] overflow-hidden bg-background pointer-events-none">
+        <Suspense fallback={null}>
+          <Hyperspeed effectOptions={hyperspeedOptions} />
+        </Suspense>
+        {/* Overlay to ensure text readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/0 via-background/40 to-background/90 pointer-events-none" />
+      </div>
 
- <Header />
- <AnimatePresence mode="wait" initial={false}>
- <motion.main
- key={location.pathname}
- initial={{ opacity: 0, y: 20 }}
- animate={{ opacity: 1, y: 0 }}
- exit={{ opacity: 0, y: -15 }}
- transition={{ duration: 0.45, ease: 'easeOut' }}
- className="relative overflow-x-hidden"
- >
- {children}
- </motion.main>
- </AnimatePresence>
- <Footer />
- </div>
- );
+      {/* CustomCursor removed */}
+      <ScrollToTop />
+      {isLoading && <PageLoader />}
+
+      <Header />
+      <AnimatePresence mode="wait" initial={false}>
+     
+          {children}
+       
+      </AnimatePresence>
+      <Footer />
+    </div>
+  );
 }
 
 export default Layout;

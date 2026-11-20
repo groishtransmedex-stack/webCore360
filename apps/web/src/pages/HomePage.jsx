@@ -50,6 +50,7 @@ import { CountUp } from '@/components/AnimationWrappers.jsx';
 import FloatingShapes from '@/components/FloatingShapes.jsx';
 import TestimonialsSlider from '@/components/TestimonialsSlider.jsx';
 import BeforeAfter from '@/components/BeforeAfter.jsx';
+import { viewport } from 'three/src/nodes/display/ScreenNode.js';
 
 function HomePage() {
   const pageRef = useRef(null);
@@ -380,9 +381,9 @@ function HomePage() {
 
   {/* Static Background Glow */}
   <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-    <div className="absolute -left-40 top-10 h-72 w-72 rounded-full bg-blue-500/10 blur-[100px] sm:h-96 sm:w-96" />
+    <div className="absolute -left-40 top-10 h-72 w-72 rounded-full bg-blue-600/40 blur-[100px] sm:h-96 sm:w-96" />
 
-    <div className="absolute -right-40 bottom-0 h-80 w-80 rounded-full bg-violet-500/10 blur-[110px] sm:h-[450px] sm:w-[450px]" />
+    <div className="absolute -right-40 bottom-0 h-80 w-80 rounded-full bg-blue-900/40 blur-[110px] sm:h-[450px] sm:w-[450px]" />
   </div>
 
   <div className="mx-auto flex max-w-[1400px] flex-col gap-12 sm:gap-16">
@@ -426,17 +427,18 @@ function HomePage() {
         <motion.h1
           variants={{
             hidden: { opacity: 0, y: 25 },
+            viewport: { once: false, amount: 0.2 },
             visible: { opacity: 1, y: 0 },
           }}
           transition={{
             duration: 0.8,
             ease: [0.22, 1, 0.36, 1],
           }}
-          className="max-w-4xl font-heading text-4xl font-semibold leading-[1.12] tracking-[-0.035em] text-white sm:text-6xl lg:text-5xl xl:text-6xl"
+          className="max-w-4xl font-heading text-4xl font-semibold leading-[1.12] tracking-[-0.035em] text-white sm:text-6xl lg:text-5xl xl:text-5xl"
         >
           Make your brand feel like a{" "}
           <span className="text-blue-500 drop-shadow-md">
-            category leader.
+            category leader
           </span>
         </motion.h1>
 
@@ -1219,9 +1221,9 @@ function HomePage() {
         viewport={{ once: false, amount: 0.15 }}
         transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
         whileHover={{ y: -7 }}
-        className="group relative overflow-hidden rounded-[2rem] border border-border glass p-6 shadow-md transition-all duration-500 hover:border-blue-500/30 sm:col-span-2 sm:p-8 lg:p-10"
+        className="group relative overflow-hidden rounded-[2rem] border border-border glass p-6 shadow-lg transition-all duration-500 hover:border-blue-600 sm:col-span-2 sm:p-8 lg:p-10"
       >
-        <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-gradient-to-br from-blue-500/10 via-violet-500/10 to-transparent blur-3xl transition-all duration-700 group-hover:scale-125" />
+        <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-gradient-to-br from-blue-500/50 via-violet-500/10 to-transparent blur-3xl transition-all duration-700 group-hover:scale-125" />
 
         <div className="pointer-events-none absolute -bottom-16 -left-16 h-48 w-48 rounded-full bg-gradient-to-tr from-violet-500/10 to-transparent blur-3xl" />
 
@@ -1296,7 +1298,7 @@ function HomePage() {
             ease: [0.22, 1, 0.36, 1],
           }}
           whileHover={{ y: -8, scale: 1.015 }}
-          className="group relative h-full overflow-hidden rounded-[2rem] border border-border glass p-6 shadow-sm transition-all duration-500 hover:border-blue-500/30 sm:p-8"
+          className="group relative h-full overflow-hidden rounded-[2rem] border border-border glass p-6 shadow-sm transition-all duration-500 hover:border-blue-600 sm:p-8"
         >
           <div className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-violet-500/10 blur-3xl transition-all duration-700 group-hover:scale-150" />
 
@@ -1522,10 +1524,10 @@ function HomePage() {
         <Sparkles className="h-4 w-4 text-violet-300" />
       </motion.div>
 
-      <h2 className="text-3xl font-extrabold leading-[1.12] tracking-[-0.045em] text-foreground dark:text-white sm:text-4xl lg:text-5xl xl:text-[3.6rem]">
-        A calm, clear delivery experience from{" "}
+      <h2 className="text-3xl font-semibold leading-[1.12] tracking-[-0.045em] text-foreground dark:text-white sm:text-4xl lg:text-5xl xl:text-[3rem]">
+        A calm clear delivery experience from{" "}
         <span className="bg-gradient-to-r from-blue-400 via-violet-400 to-fuchsia-400 bg-clip-text text-transparent">
-          strategy to scale.
+          strategy to scale
         </span>
       </h2>
 
@@ -1625,15 +1627,15 @@ function HomePage() {
   <div className="mx-auto max-w-[1400px]">
 
     {/* Enterprise Intro */}
-    <div className="grid items-start gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
+    <div className="space-y-10 lg:space-y-12">
       <motion.div
         initial={{ opacity: 0, x: -40, filter: "blur(6px)" }}
         whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
         viewport={{ once: false, amount: 0.2 }}
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className="lg:sticky lg:top-28 lg:self-start"
+        className="mx-auto flex max-w-4xl flex-col items-center justify-center text-center"
       >
-        <div className="mb-6 inline-flex items-center gap-3 rounded-full border border-blue-400/20 bg-gradient-to-r from-blue-500/10 to-violet-500/10 px-5 py-2.5 shadow-lg shadow-blue-500/5">
+        <div className="mb-6 inline-flex items-center justify-center gap-3 rounded-full border border-blue-400/20 bg-gradient-to-r from-blue-500/10 to-violet-500/10 px-5 py-2.5 shadow-lg shadow-blue-500/5">
           <span className="h-2 w-2 animate-pulse rounded-full bg-blue-400 shadow-[0_0_12px_rgba(96,165,250,0.9)]" />
           <span className="text-xs font-bold uppercase tracking-[0.25em] text-blue-400 dark:text-blue-300">
             Enterprise Hub
@@ -1641,19 +1643,19 @@ function HomePage() {
           <Sparkles className="h-4 w-4 text-violet-400" />
         </div>
 
-        <h2 className="text-3xl font-extrabold leading-[1.12] tracking-[-0.045em] text-foreground dark:text-white sm:text-4xl lg:text-5xl">
+        <h2 className="mx-auto max-w-xl text-3xl font-semibold leading-[1.12] tracking-[-0.045em] text-foreground dark:text-white sm:text-4xl lg:text-5xl">
           The command center for{" "}
           <span className="bg-gradient-to-r from-blue-400 via-violet-400 to-fuchsia-400 bg-clip-text text-transparent">
-            premium digital growth.
+            premium digital growth
           </span>
         </h2>
 
-        <p className="mt-6 max-w-xl text-base leading-8 text-muted-foreground sm:text-lg">
+        <p className="mx-auto mt-6 max-w-xl text-base leading-8 text-muted-foreground sm:text-xl sm:leading-9">
           Awards, team stories, calculators, dashboards, and audit tools
-          designed for growth leaders.
+          designed for growth leaders
         </p>
 
-        <div className="mt-8 flex flex-wrap gap-3">
+        <div className="mt-8 flex flex-wrap justify-center gap-3">
           <span className="rounded-full border border-blue-400/20 bg-blue-500/10 px-4 py-2 text-xs font-semibold text-blue-500 dark:text-blue-300">
             Strategy
           </span>
@@ -1667,7 +1669,7 @@ function HomePage() {
       </motion.div>
 
       {/* Awards / Certifications / Partners */}
-      <div className="grid gap-5">
+      <div className="grid items-stretch gap-5 md:grid-cols-3">
         {[
           {
             title: "Awards",
@@ -1689,7 +1691,7 @@ function HomePage() {
             viewport={{ once: false, amount: 0.2 }}
             transition={{ duration: 0.7, delay: index * 0.12 }}
             whileHover={{ y: -5 }}
-            className="group relative overflow-hidden rounded-[1.75rem] border border-border/70 bg-card/70 p-6 shadow-xl backdrop-blur-xl transition-all duration-500 hover:border-blue-400/30 hover:shadow-blue-950/10 dark:border-white/10 dark:bg-white/[0.035] sm:rounded-[2rem] sm:p-8"
+            className="group relative flex h-full flex-col justify-center overflow-hidden rounded-[1.75rem] border border-border/70 bg-card/70 p-6 text-center shadow-xl backdrop-blur-xl transition-all duration-500 hover:border-blue-400/30 hover:shadow-blue-950/10 dark:border-white/10 dark:bg-white/[0.035] sm:rounded-[2rem] sm:p-8"
           >
             <div
               className={`absolute -right-12 -top-12 h-40 w-40 rounded-full blur-3xl transition-opacity duration-500 group-hover:opacity-100 ${
@@ -1700,7 +1702,7 @@ function HomePage() {
             />
 
             <div className="relative">
-              <div className="flex items-center gap-4">
+              <div className="flex flex-col items-center justify-center gap-4">
                 <div
                   className={`flex h-12 w-12 items-center justify-center rounded-2xl border ${
                     card.color === "blue"
@@ -1727,9 +1729,9 @@ function HomePage() {
                 </div>
               </div>
 
-              <div className="mt-7 grid gap-4 sm:grid-cols-2">
+              <div className="mt-7 grid gap-4 text-center sm:grid-cols-2">
                 {card.items.map((item) => (
-                  <div key={item} className="flex items-start gap-3">
+                  <div key={item} className="flex items-start justify-center gap-3 text-left">
                     <span
                       className={`mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${
                         card.color === "blue"
@@ -1756,12 +1758,12 @@ function HomePage() {
           viewport={{ once: false, amount: 0.2 }}
           transition={{ duration: 0.7, delay: 0.2 }}
           whileHover={{ y: -5 }}
-          className="group relative overflow-hidden rounded-[1.75rem] border border-border/70 bg-card/70 p-6 shadow-xl backdrop-blur-xl transition-all duration-500 hover:border-fuchsia-400/30 dark:border-white/10 dark:bg-white/[0.035] sm:rounded-[2rem] sm:p-8"
+          className="group relative flex h-full flex-col justify-center overflow-hidden rounded-[1.75rem] border border-border/70 bg-card/70 p-6 text-center shadow-xl backdrop-blur-xl transition-all duration-500 hover:border-fuchsia-400/30 dark:border-white/10 dark:bg-white/[0.035] sm:rounded-[2rem] sm:p-8 md:col-span-1"
         >
           <div className="absolute -right-12 -top-12 h-40 w-40 rounded-full bg-fuchsia-500/10 blur-3xl" />
 
           <div className="relative">
-            <div className="flex items-center gap-4">
+            <div className="flex flex-col items-center justify-center gap-4">
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-fuchsia-400/20 bg-fuchsia-500/10 text-fuchsia-500 dark:text-fuchsia-300">
                 <Code2 className="h-5 w-5" />
               </div>
@@ -1775,7 +1777,7 @@ function HomePage() {
               </div>
             </div>
 
-            <div className="mt-7 flex flex-wrap gap-2.5">
+            <div className="mt-7 flex flex-wrap justify-center gap-2.5">
               {partners.map((partner) => (
                 <motion.span
                   key={partner}

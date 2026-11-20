@@ -300,15 +300,15 @@ function WhyChooseUs() {
 
   <motion.h1
     variants={reveal}
-    className="text-4xl font-extrabold leading-[1.1] tracking-[-0.055em] text-foreground sm:text-5xl lg:text-6xl xl:text-6xl"
+    className="text-4xl font-extrabold leading-[1.1] tracking-[-0.055em] text-foreground sm:text-5xl lg:text-6xl xl:text-5xl"
   >
-    Built for
+    Built for  Premium Performance.
     <motion.span
       className="block bg-gradient-to-r from-blue-500 via-indigo-500 to-violet-500 bg-clip-text text-transparent drop-shadow-[0_5px_20px_rgba(59,130,246,0.2)]"
     >
-      Premium Performance.
+      Designed for Growth.
     </motion.span>
-    Designed for Growth.
+   
   </motion.h1>
 
   <motion.p

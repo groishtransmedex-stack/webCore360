@@ -1,102 +1,218 @@
+
 import React, { useEffect, useRef } from 'react';
 
-const Hyperspeed = ({ effectOptions }) => {
-    const canvasRef = useRef(null);
-    const requestRef = useRef(null);
+const Hyperspeed = ({ effectOptions = {} }) => {
+  const canvasRef = useRef(null);
+  const requestRef = useRef(null);
 
-    useEffect(() => {
-        const canvas = canvasRef.current;
-        if (!canvas) return;
-        const ctx = canvas.getContext('2d');
-        if (!ctx) return;
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
 
-        let width = canvas.width = window.innerWidth;
-        let height = canvas.height = window.innerHeight;
+    const ctx = canvas.getContext('2d', { alpha: false });
+    if (!ctx) return;
 
-        const handleResize = () => {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-        };
+    let width = 0;
+    let height = 0;
+    let centerX = 0;
+    let centerY = 0;
+    let animationTime = 0;
 
-        window.addEventListener('resize', handleResize);
+    const isMobile = window.innerWidth < 768;
+    const prefersReducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches;
 
-        // Basic hyperspeed star warp effect
-        const stars = [];
-        const numStars = effectOptions?.lightPairsPerRoadWay ? effectOptions.lightPairsPerRoadWay * 10 : 800;
-        const speed = effectOptions?.speedUp || 2;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-        for (let i = 0; i < numStars; i++) {
-            stars.push({
-                x: Math.random() * width - width / 2,
-                y: Math.random() * height - height / 2,
-                z: Math.random() * 2000,
-                pz: Math.random() * 2000
-            });
+    const speed = effectOptions?.speedUp || 2;
+    const maxDepth = 2200;
+
+    const leftColors =
+      effectOptions?.colors?.leftCars || [
+        0x7C3AED,
+        0xA78BFA,
+        0x4C1D95,
+      ];
+
+    const rightColors =
+      effectOptions?.colors?.rightCars || [
+        0x06B6D4,
+        0x3B82F6,
+        0x1E3A8A,
+      ];
+
+    const resizeCanvas = () => {
+      width = window.innerWidth;
+      height = window.innerHeight;
+
+      centerX = width / 2;
+      centerY = height / 2;
+
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+
+    resizeCanvas();
+
+    const particleCount = isMobile ? 180 : 550;
+
+    const stars = Array.from({ length: particleCount }, () => ({
+      x: (Math.random() - 0.5) * 2,
+      y: (Math.random() - 0.5) * 2,
+      z: Math.random() * maxDepth,
+      previousZ: 0,
+      size: Math.random() * 1.5 + 0.5,
+      alpha: Math.random() * 0.5 + 0.5,
+      color: null,
+    }));
+
+    stars.forEach((star) => {
+      const palette = star.x > 0 ? rightColors : leftColors;
+      const color = palette[
+        Math.floor(Math.random() * palette.length)
+      ];
+
+      star.color = `#${color.toString(16).padStart(6, '0')}`;
+    });
+
+    const animate = () => {
+      animationTime += 0.016;
+
+      // Smooth background trails
+      ctx.fillStyle = 'rgba(3, 7, 18, 0.22)';
+      ctx.fillRect(0, 0, width, height);
+
+      // Subtle central ambient glow
+      const glow = ctx.createRadialGradient(
+        centerX,
+        centerY,
+        0,
+        centerX,
+        centerY,
+        Math.max(width, height) * 0.65
+      );
+
+      glow.addColorStop(0, 'rgba(30, 64, 175, 0.10)');
+      glow.addColorStop(0.45, 'rgba(30, 58, 138, 0.035)');
+      glow.addColorStop(1, 'rgba(3, 7, 18, 0)');
+
+      ctx.fillStyle = glow;
+      ctx.fillRect(0, 0, width, height);
+
+      stars.forEach((star) => {
+        star.previousZ = star.z;
+
+        // Natural speed variation
+        const acceleration = 1 + Math.sin(animationTime * 0.15) * 0.025;
+        star.z -= speed * 2 * acceleration;
+
+        if (star.z < 1) {
+          star.x = (Math.random() - 0.5) * 2;
+          star.y = (Math.random() - 0.5) * 2;
+          star.z = maxDepth;
+          star.previousZ = maxDepth;
         }
 
-        const animate = () => {
-            ctx.fillStyle = 'rgba(3, 7, 18, 0.3)'; // Match background with trails
-            ctx.fillRect(0, 0, width, height);
+        // Perspective projection
+        const perspective = 550;
 
-            ctx.translate(width / 2, height / 2);
+        const scale = perspective / star.z;
+        const previousScale = perspective / Math.max(star.previousZ, 1);
 
-            stars.forEach(star => {
-                star.pz = star.z;
-                star.z -= speed * 15; // Speed multiplier
+        const x = centerX + star.x * scale * width * 0.75;
+        const y = centerY + star.y * scale * height * 0.75;
 
-                if (star.z < 1) {
-                    star.x = Math.random() * width - width / 2;
-                    star.y = Math.random() * height - height / 2;
-                    star.z = 2000;
-                    star.pz = 2000;
-                }
+        const previousX =
+          centerX + star.x * previousScale * width * 0.75;
 
-                const sx = (star.x / star.z) * width;
-                const sy = (star.y / star.z) * height;
+        const previousY =
+          centerY + star.y * previousScale * height * 0.75;
 
-                const px = (star.x / star.pz) * width;
-                const py = (star.y / star.pz) * height;
+        const depth = 1 - star.z / maxDepth;
+const fadeIn = Math.min(1, depth * 1.2);
+const opacity = fadeIn * star.alpha * 0.45;
+        const lineWidth = Math.max(0.4, depth * star.size * 2.5);
 
-                const zRatio = 1 - star.z / 2000;
+        // Ignore particles outside the screen
+        if (
+          x < -100 ||
+          x > width + 100 ||
+          y < -100 ||
+          y > height + 100
+        ) {
+          return;
+        }
 
-                // Colors based on effect options or defaults
-                const leftColors = effectOptions?.colors?.leftCars || [0x7C3AED, 0xA78BFA, 0x4C1D95];
-                const rightColors = effectOptions?.colors?.rightCars || [0x06B6D4, 0x3B82F6, 0x1E3A8A];
-                const colorPalette = star.x > 0 ? rightColors : leftColors;
+        // Neon glow
+        ctx.save();
 
-                // Pick a color from palette based on index
-                const colorInt = colorPalette[Math.floor(star.pz) % colorPalette.length];
-                const colorStr = `#${colorInt.toString(16).padStart(6, '0')}`;
+        ctx.globalAlpha = opacity;
+        ctx.strokeStyle = star.color;
+        ctx.lineWidth = lineWidth;
 
-                ctx.strokeStyle = colorStr;
-                ctx.lineWidth = zRatio * 4;
+        ctx.shadowBlur = isMobile ? 5 : 12;
+        ctx.shadowColor = star.color;
 
-                ctx.beginPath();
-                ctx.moveTo(px, py);
-                ctx.lineTo(sx, sy);
-                ctx.stroke();
-            });
+        ctx.lineCap = 'round';
+        ctx.beginPath();
 
-            ctx.translate(-width / 2, -height / 2);
-            requestRef.current = requestAnimationFrame(animate);
-        };
+        ctx.moveTo(previousX, previousY);
+        ctx.lineTo(x, y);
 
-        animate();
+        ctx.stroke();
 
-        return () => {
-            window.removeEventListener('resize', handleResize);
-            if (requestRef.current) {
-                cancelAnimationFrame(requestRef.current);
-            }
-        };
-    }, [effectOptions]);
+        // Bright particle core
+        if (depth > 0.65) {
+          ctx.shadowBlur = 8;
+          ctx.fillStyle = '#ffffff';
 
-    return (
-        <canvas
-            ref={canvasRef}
-            className="absolute inset-0 w-full h-full pointer-events-none"
-        />
-    );
+          ctx.beginPath();
+          ctx.arc(x, y, Math.max(0.5, depth * 1.1), 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        ctx.restore();
+      });
+
+      requestRef.current = requestAnimationFrame(animate);
+    };
+
+    // Start with a clean background
+    ctx.fillStyle = '#030712';
+    ctx.fillRect(0, 0, width, height);
+
+    if (!prefersReducedMotion) {
+      animate();
+    }
+
+    const handleResize = () => {
+      resizeCanvas();
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+
+      if (requestRef.current) {
+        cancelAnimationFrame(requestRef.current);
+      }
+    };
+  }, [effectOptions]);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="absolute inset-0 h-full w-full pointer-events-none"
+      aria-hidden="true"
+    />
+  );
 };
 
 export default Hyperspeed;

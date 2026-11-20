@@ -111,7 +111,7 @@ function ContactUs() {
 
             <main className="pt-24 min-h-screen">
                 <section className="py-20">
-                    <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 bg-background/80 backdrop-blur-md rounded-2xl border border-border shadow-lg p-8">
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
